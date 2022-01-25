@@ -1,0 +1,46 @@
+scalar Time
+scalar NullString
+scalar NullInt
+scalar NullInt64
+scalar NullTime
+scalar NullBool
+scalar NullFloat
+scalar Upload
+
+enum FilterOption {
+	All
+	Active
+	Archived
+
+	ProductWithoutOrder
+	ProductWithoutCarton
+	ProductWithoutSKU
+	CartonWithoutPallet
+	PalletWithoutContainer
+
+	System
+	Blockchain
+
+	Pending
+}
+enum SortByOption {
+	DateCreated
+	DateUpdated
+	Alphabetical
+}
+enum SortDir {
+	Ascending
+	Descending
+}
+
+input SearchFilter {
+	search: NullString
+	filter: FilterOption
+	sortBy: SortByOption
+	sortDir: SortDir
+}
+
+type PageInfo {
+	startCursor: ID!
+	endCursor: ID!
+}

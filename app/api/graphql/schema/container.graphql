@@ -1,0 +1,33 @@
+type Container {
+	id: ID!
+	uid: String!
+	code: String!
+	description: String!
+	organization: Organization
+	isArchived: Boolean!
+	createdAt: Time!
+}
+
+type ContainerResult {
+	containers: [Container!]!
+	total: Int!
+}
+
+input UpdateContainer {
+	description: NullString
+    organizationID: NullInt64
+}
+
+extend type Query {
+	containers(search: SearchFilter!, limit: Int!, offset: Int!): ContainerResult!
+	containerByID(id: ID!): Container!
+	containerByUID(uid: String!): Container!
+	containerByCode(code: String!): Container!
+}
+
+extend type Mutation {
+	containerCreate(input: UpdateContainer!): Container!
+	containerUpdate(id: ID!, input: UpdateContainer!): Container!
+	containerArchive(id: ID!): Container!
+	containerUnarchive(id: ID!): Container!
+}

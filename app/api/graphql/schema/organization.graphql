@@ -1,0 +1,30 @@
+type Organization {
+	id: ID!
+	code: String!
+	name: String!
+	website: NullString
+	isArchived: Boolean!
+	createdAt: Time!
+}
+
+type OrganizationsResult {
+	organizations: [Organization!]!
+	total: Int!
+}
+
+input UpdateOrganization {
+	name: NullString
+	website: NullString
+	isArchived: NullBool
+}
+
+extend type Query {
+	organizations(search: SearchFilter!, limit: Int!, offset: Int!): OrganizationsResult!
+	organization(id: ID, code: String): Organization!
+	organizationByID(id: ID!): Organization!
+	organizationByCode(code: String!): Organization!
+}
+
+extend type Mutation {
+	organizationUpdate(id: ID!, input: UpdateOrganization!): Organization!
+}

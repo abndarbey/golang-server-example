@@ -1,0 +1,35 @@
+type Pallet {
+	id: ID!
+	uid: String!
+	code: String!
+	description: String!
+	container: Container
+	organization: Organization
+	isArchived: Boolean!
+	createdAt: Time!
+}
+
+type PalletResult {
+	pallets: [Pallet!]!
+	total: Int!
+}
+
+input UpdatePallet {
+	description: NullString
+    containerID: NullInt64
+    organizationID: NullInt64
+}
+
+extend type Query {
+	pallets(search: SearchFilter!, limit: Int!, offset: Int!, containerID: ID): PalletResult!
+	palletByID(id: ID!): Pallet!
+	palletByUID(uid: String!): Pallet!
+	palletByCode(code: String!): Pallet!
+}
+
+extend type Mutation {
+	palletCreate(input: UpdatePallet!): Pallet!
+	palletUpdate(id: ID!, input: UpdatePallet!): Pallet!
+	palletArchive(id: ID!): Pallet!
+	palletUnarchive(id: ID!): Pallet!
+}

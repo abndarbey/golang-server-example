@@ -1,0 +1,90 @@
+type Profile {
+    referralCode: NullString
+    walletPoints: Int!
+}
+
+type User {
+	id: ID!
+	firstName: String!
+	lastName: String!
+	email: String!
+	phone: String!
+
+	userType: String!
+	isAdmin: Boolean!
+	isMember: Boolean!
+	isCustomer: Boolean!
+    
+	organization: Organization
+    role: Role
+    profile: Profile
+
+	createdAt: Time!
+}
+
+type UserResult {
+	users: [User!]!
+	total: Int!
+}
+
+input NewSuperAdmin {
+	firstName: NullString
+	lastName: NullString
+	email: NullString
+	phone: NullString
+	password: NullString
+}
+
+input NewMember {
+	firstName: NullString
+	lastName: NullString
+	email: NullString
+	phone: NullString
+	password: NullString
+	organizationID: NullString
+	roleID: NullString
+}
+
+input NewCustomer {
+	firstName: NullString
+	lastName: NullString
+	email: NullString
+	phone: NullString
+	password: NullString
+	ReferralCode: NullString
+	purchaseToken: NullString
+}
+
+input UpdateUser {
+	firstName: NullString
+	lastName: NullString
+	email: NullString
+	phone: NullString
+	roleID: NullString
+	password: NullString
+}
+
+extend type Query {
+	users(
+		search: SearchFilter!,
+		limit: Int!,
+		offset: Int!,
+		isAdmin: Boolean!,
+		isMember: Boolean!,
+		isCustomer: Boolean!,
+		organizationID: ID
+	): UserResult!
+
+	user(id: ID, email: String, phone: String): User!
+}
+
+extend type Mutation {
+	changePassword(oldPassword: String!, password: String!): Boolean!
+	changeDetails(input: UpdateUser!): User!
+	userUpdate(id: ID!, input: UpdateUser!): User!
+
+	forgotPassword(email: String!, viaSMS: Boolean): Boolean!
+	# change password with token and new password (requires email if short alphaNumeric token)
+	resetPassword(token: String!, password: String!, email: NullString): Boolean!
+	resendEmailVerification(email: String!): Boolean!
+}

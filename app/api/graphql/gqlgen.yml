@@ -1,0 +1,79 @@
+# Where are all the schema files located? globs are supported eg  src/**/*.graphqls
+schema:
+  - schema/*.graphql
+
+# Where should the generated server code go?
+exec:
+  filename: generated/graph/schema_gen.go
+  package: graph
+
+# Uncomment to enable federation
+# federation:
+#   filename: graph/federation.go
+#   package: graph
+
+# Where should any generated models go?
+model:
+  filename: generated/graph/models_gen.go
+  package: graph
+
+# Where should the resolver implementations go?
+resolver:
+  layout: follow-schema
+  dir: generated/resolvergen
+  filename: generated/resolvergen/resolver_gen.go
+  package: resolvergen
+
+# Optional: turn on use `gqlgen:"fieldName"` tags in your models
+# struct_tag: json
+
+# Optional: turn on to use []Thing instead of []*Thing
+omit_slice_element_pointers: true
+
+# Optional: set to speed up generation time by not performing a final validation pass.
+# skip_validation: true
+
+# gqlgen will search for any type names in the schema in these go packages
+# if they match it will use them, otherwise it will generate them.
+autobind: []
+
+# This section declares type mapping between the GraphQL and go type systems
+#
+# The first line in each type will be used as defaults for resolver arguments and
+# modelgen, the others will be allowed when binding to fields. Configure them to
+# your liking
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int64
+  Int:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int
+      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/99designs/gqlgen/graphql.Int32
+  NullString:
+    model: orijinplus/app/api/graphql.NullString
+  NullInt:
+    model: orijinplus/app/api/graphql.NullInt
+  NullInt64:
+    model: orijinplus/app/api/graphql.NullInt64
+  NullFloat:
+    model: orijinplus/app/api/graphql.NullFloat
+  NullTime:
+    model: orijinplus/app/api/graphql.NullTime
+  NullBool:
+    model: orijinplus/app/api/graphql.NullBool
+  Organization:
+    model: orijinplus/app/models.Organization
+  Role:
+    model: orijinplus/app/models.Role
+  User:
+    model: orijinplus/app/models.User
+  Profile:
+    model: orijinplus/app/models.Profile
+  File:
+    model: orijinplus/app/models.File
+  Container:
+    model: orijinplus/app/models.Container
+  Pallet:
+    model: orijinplus/app/models.Pallet
